@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мовний Тіндер · znohub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --violet:#8A3FF5; --violet-ink:#6E22E0;
+  --bg:#F6F1FD; --surface:#FFFFFF; --soft:#EEE2FE; --line:#C7A5F7;
+  --ink:#141218; --muted:#6B6378; --ok:#1E9E62; --bad:#E5486B;
+  --ok-bg:#E3F6EC; --bad-bg:#FDE7EC;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#140D22; --surface:#21173A; --soft:#2F1F55; --line:#5A3A9C; --ink:#F6F1FF; --muted:#B9ADD6;
+  --ok:#5BD69A; --bad:#FF7491; --ok-bg:#163A2B; --bad-bg:#45182A; --violet-ink:#C9A2FF; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#140D22; --surface:#21173A; --soft:#2F1F55; --line:#5A3A9C; --ink:#F6F1FF; --muted:#B9ADD6;
+  --ok:#5BD69A; --bad:#FF7491; --ok-bg:#163A2B; --bad-bg:#45182A; --violet-ink:#C9A2FF; color-scheme:dark;}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;cursor:pointer;color:inherit}
+button:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.display{font-family:"Montserrat","Nunito",sans-serif;font-weight:800;letter-spacing:-.015em}
+.app{max-width:460px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:14px 16px 20px;gap:14px}
+.hidden{display:none!important}
+.top{display:flex;align-items:center;gap:10px}
+.brand{display:inline-flex;align-items:center;color:var(--ink);line-height:0}
+.brand svg{height:22px;width:auto;display:block}
+.pill{margin-left:auto;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:9px;background:var(--surface);overflow:hidden}
+.bar b{display:block;height:100%;background:var(--violet);width:0;transition:width .3s}
+.screen{flex:1;display:flex;flex-direction:column;gap:14px}
+
+/* frame with stamp edge, like the brand card */
+.stamp{background:var(--violet);padding:12px;border-radius:30px;position:relative}
+.stamp::before,.stamp::after{content:"";position:absolute;left:18px;right:18px;height:10px;
+  background:radial-gradient(circle at 7px 5px,var(--bg) 4.5px,transparent 5px) 0 0/16px 10px repeat-x}
+.stamp::before{top:-5px}.stamp::after{bottom:-5px}
+.stamp .in{background:var(--surface);border-radius:20px;padding:24px 20px;text-align:center}
+.hero h1{font-size:clamp(40px,12vw,54px);line-height:1;margin:0 0 12px}
+.hero h1 span{color:var(--violet)}
+.hero p{margin:0;font-size:16.5px;line-height:1.45;color:var(--muted)}
+.box{background:var(--soft);border:1.5px solid var(--line);border-radius:20px;padding:14px 16px;line-height:1.45;font-size:15.5px}
+.rounds{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.rounds li{display:flex;gap:12px;align-items:center;background:var(--surface);border-radius:18px;padding:12px 14px;font-size:15px;line-height:1.35}
+.rounds li b{display:block;font-size:15.5px}
+.rounds .n{flex:none;width:36px;height:36px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-weight:800}
+.cta{background:var(--violet);color:#fff;border:0;border-radius:999px;padding:16px 22px;font-size:17px;font-weight:800;width:100%}
+.cta:active{transform:scale(.98)}
+.cta:disabled{opacity:.45;cursor:not-allowed}
+.note{color:var(--muted);font-size:13.5px;text-align:center;margin:0}
+
+/* round 1 */
+.card .in{padding:30px 18px}
+.kicker{color:var(--muted);font-size:14px;margin:0 0 10px}
+.pair{font-size:clamp(28px,9vw,38px);line-height:1.15;margin:0}
+.pair em{font-style:normal;color:var(--violet)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:16px 10px;font-size:17px;font-weight:800}
+.choice:hover{border-color:var(--violet)}
+.choice:disabled{cursor:default}
+.choice.right{background:var(--ok-bg);border-color:var(--ok)}
+.choice.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.fb{border-radius:18px;padding:13px 15px;font-size:15.5px;line-height:1.4;border:1.5px solid}
+.fb.ok{background:var(--ok-bg);border-color:var(--ok)}
+.fb.no{background:var(--bad-bg);border-color:var(--bad)}
+.fb b{display:block;margin-bottom:2px}
+
+/* round 2 */
+.profiles{display:flex;flex-direction:column;gap:10px}
+.profile{background:var(--surface);border:2px dashed var(--line);border-radius:20px;padding:12px 14px;text-align:left;min-height:74px;display:flex;flex-direction:column;gap:8px;width:100%}
+.profile.armed{border-color:var(--violet);border-style:solid}
+.profile h3{margin:0;font-size:16px}
+.slots{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:8px 13px;font-size:15px;font-weight:700;line-height:1.2;text-align:left}
+.chip small{display:block;font-weight:600;color:var(--muted);font-size:12.5px}
+.chip.sel{background:var(--violet);color:#fff;border-color:var(--violet)}
+.chip.sel small{color:#fff;opacity:.85}
+.chip.right{background:var(--ok-bg);border-color:var(--ok)}
+.chip.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.hint{color:var(--muted);font-size:14px;margin:0}
+
+/* round 3 */
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px;font-size:16.5px;font-weight:800;text-align:left}
+.opt:hover{border-color:var(--violet)}
+.opt.right{background:var(--ok-bg);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+
+/* results */
+.big{font-size:84px;line-height:1;margin:0}
+.big small{font-size:.42em;color:var(--muted)}
+.score-rows{display:flex;flex-direction:column;gap:8px}
+.score-rows div{display:flex;justify-content:space-between;background:var(--surface);border-radius:16px;padding:12px 15px;font-size:15.5px}
+.score-rows b{font-variant-numeric:tabular-nums}
+/* tablets and laptops */
+@media (min-width:700px){
+  .app{max-width:600px;padding:28px 24px 36px;gap:18px}
+  .brand svg{height:26px}
+  .pill{font-size:15px;padding:6px 14px}
+  .stamp{padding:14px}
+  .stamp .in{padding:36px 34px}
+  .card .in{padding:44px 28px}
+  .hero h1{font-size:64px}
+  .hero p{font-size:18px}
+  .pair{font-size:44px}
+  .kicker{font-size:15.5px}
+  .rounds li{padding:15px 18px;font-size:16px}
+  .choice{padding:20px 12px;font-size:19px}
+  .opt{padding:17px 20px;font-size:18px}
+  .fb{font-size:16.5px;padding:15px 18px}
+  .cta{font-size:18px;padding:18px 24px}
+  .score-rows div{font-size:16.5px;padding:14px 18px}
+  .big{font-size:100px}
+}
+@media (min-width:1024px){
+  .app{max-width:640px}
+  .screen{flex:none;margin:auto 0}
+}
+@media (hover:none){.choice:not(.right):not(.wrong):hover,.opt:not(.right):not(.wrong):hover{border-color:var(--line)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 152.00 32.58" role="img" aria-label="znohub"><g transform="translate(0.00 8.62) scale(0.9994 0.9825)"><path d="M19.1694 23.5794H0L9.68128 6.3699H0V0.496637H19.1694L9.48808 17.7062H19.1694V23.5794Z" fill="currentColor"/><path d="M28.2925 23.5794H22.4322V0.453451H23.849L25.781 2.69911C26.7255 1.8354 27.7916 1.17321 28.9794 0.712566C30.1815 0.237522 31.4337 0 32.736 0C34.1385 0 35.4622 0.27351 36.7073 0.82053C37.9523 1.35315 39.04 2.09451 39.9702 3.0446C40.9004 3.98029 41.6302 5.08153 42.1597 6.34831C42.7035 7.6007 42.9754 8.93946 42.9754 10.3646V23.5794H37.1151V10.3646C37.1151 9.75999 37.0007 9.19138 36.7717 8.65875C36.5427 8.11173 36.2279 7.63669 35.8272 7.23362C35.4265 6.83055 34.9614 6.51386 34.4319 6.28353C33.9024 6.05321 33.3371 5.93805 32.736 5.93805C32.1207 5.93805 31.5411 6.05321 30.9973 6.28353C30.4535 6.51386 29.9812 6.83055 29.5805 7.23362C29.1798 7.63669 28.865 8.11173 28.636 8.65875C28.407 9.19138 28.2925 9.75999 28.2925 10.3646V23.5794Z" fill="currentColor"/></g><g transform="translate(45.13 9.13) scale(0.9756 0.9756)"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2193 22.4385C17.4155 22.4385 22.4385 17.4153 22.4385 11.2193C22.4385 5.02323 17.4155 0 11.2193 0C5.02299 0 0 5.02323 0 11.2193C0 17.4153 5.02299 22.4385 11.2193 22.4385ZM10.7941 5.14327C10.1324 4.56973 9.13124 4.64118 8.55782 5.30285C7.9844 5.96452 8.05598 6.96583 8.71764 7.53936L12.7642 11.0463L8.66298 14.9487C8.02871 15.5522 8.00382 16.5559 8.60737 17.19C9.21091 17.8245 10.2145 17.8492 10.8488 17.2457L16.0199 12.3249C16.802 11.5808 16.7728 10.3246 15.9569 9.61725L10.7941 5.14327Z" fill="currentColor"/></g><g transform="translate(69.60 0.00) scale(0.9899 0.9873)"><path d="M5.85715 32.1507H0V0H5.85715V10.1585C6.558 9.62873 7.28031 9.25647 8.02408 9.0417C8.76784 8.81262 9.52591 8.69807 10.2983 8.69807C11.7143 8.69807 13.0445 8.97011 14.2889 9.51419C15.5332 10.0439 16.6131 10.7813 17.5285 11.7263C18.4582 12.657 19.1877 13.7523 19.7169 15.0122C20.2604 16.2579 20.5322 17.5894 20.5322 19.0069V32.1507H14.6321V19.0069H14.675C14.675 18.4056 14.5606 17.84 14.3318 17.3102C14.1029 16.7662 13.7883 16.2937 13.3878 15.8928C12.9873 15.4919 12.5224 15.1769 11.9932 14.9478C11.464 14.7187 10.899 14.6042 10.2983 14.6042C9.68324 14.6042 9.10397 14.7187 8.56045 14.9478C8.01693 15.1769 7.54492 15.4919 7.14443 15.8928C6.74394 16.2937 6.42927 16.7662 6.20042 17.3102C5.97157 17.84 5.85715 18.4056 5.85715 19.0069V32.1507Z" fill="currentColor"/><path d="M41.4291 29.4661C40.9571 29.8956 40.4494 30.3037 39.9058 30.6902C39.3766 31.0625 38.8188 31.3918 38.2324 31.6782C37.6459 31.9502 37.0381 32.165 36.4087 32.3225C35.7937 32.4943 35.1643 32.5802 34.5207 32.5802C33.1047 32.5802 31.7745 32.3296 30.5301 31.8285C29.2857 31.3274 28.1915 30.6187 27.2475 29.7023C26.3178 28.7717 25.5812 27.6477 25.0377 26.3305C24.5085 24.9989 24.2439 23.5099 24.2439 21.8633V9.14908H30.0796V21.8633C30.0796 22.6365 30.194 23.3309 30.4228 23.9465C30.666 24.5479 30.9878 25.0562 31.3883 25.4714C31.7888 25.8866 32.2536 26.2016 32.7829 26.4164C33.3264 26.6311 33.9057 26.7385 34.5207 26.7385C35.1214 26.7385 35.6864 26.6025 36.2156 26.3305C36.7591 26.0441 37.2311 25.6718 37.6316 25.2137C38.0321 24.7555 38.3468 24.2401 38.5756 23.6674C38.8045 23.0803 38.9189 22.479 38.9189 21.8633V9.14908H44.7761V32.1507H43.3601L41.4291 29.4661Z" fill="currentColor"/><path d="M72.2596 20.4458C72.2596 22.2499 71.9521 23.8964 71.337 25.3855C70.722 26.8745 69.8853 28.156 68.8268 29.2298C67.7684 30.2893 66.524 31.1126 65.0937 31.6996C63.6777 32.2867 62.1544 32.5802 60.5239 32.5802C58.9076 32.5802 57.3843 32.2795 55.954 31.6782C54.538 31.0768 53.2936 30.2392 52.2209 29.1654C51.1624 28.0916 50.3257 26.8173 49.7107 25.3425C49.0956 23.8535 48.7881 22.2213 48.7881 20.4458V0H54.6667V10.7384C54.9814 10.3375 55.3604 9.97952 55.8038 9.66453C56.2615 9.34953 56.7478 9.09181 57.2627 8.89136C57.7919 8.69091 58.3355 8.54058 58.8933 8.44035C59.4511 8.32581 59.9946 8.26854 60.5239 8.26854C62.1544 8.26854 63.6777 8.57637 65.0937 9.19204C66.524 9.79339 67.7684 10.6381 68.8268 11.7263C69.8853 12.8144 70.722 14.103 71.337 15.5921C71.9521 17.0668 72.2596 18.6848 72.2596 20.4458ZM66.3595 20.4458C66.3595 19.5581 66.2022 18.7349 65.8875 17.976C65.5872 17.2029 65.1724 16.5371 64.6432 15.9787C64.1139 15.4203 63.4918 14.9836 62.7766 14.6686C62.0757 14.3536 61.3248 14.1961 60.5239 14.1961C59.7229 14.1961 58.9648 14.3751 58.2496 14.733C57.5488 15.0767 56.9338 15.542 56.4045 16.129C55.8753 16.7017 55.4605 17.3675 55.1602 18.1264C54.8598 18.8709 54.7096 19.644 54.7096 20.4458C54.7096 21.3335 54.8598 22.1568 55.1602 22.9157C55.4605 23.6745 55.8753 24.3331 56.4045 24.8915C56.9338 25.4499 57.5488 25.8938 58.2496 26.2231C58.9648 26.5381 59.7229 26.6956 60.5239 26.6956C61.3248 26.6956 62.0757 26.5381 62.7766 26.2231C63.4918 25.8938 64.1139 25.4499 64.6432 24.8915C65.1724 24.3331 65.5872 23.6745 65.8875 22.9157C66.2022 22.1568 66.3595 21.3335 66.3595 20.4458Z" fill="currentColor"/></g><g transform="translate(144.01 24.09) scale(0.9983 0.9015)"><path d="M7.98659 4.05668C7.98659 6.29712 6.19873 8.11336 3.99329 8.11336C1.78786 8.11336 0 6.29712 0 4.05668C0 1.81624 1.78786 0 3.99329 0C6.19873 0 7.98659 1.81624 7.98659 4.05668Z" fill="currentColor"/></g></svg></span>
+    <span class="pill hidden" id="pill"></span>
+  </header>
+  <div class="bar hidden" id="barwrap"><b id="bar"></b></div>
+  <main class="screen" id="screen"></main>
+</div>
+
+<script>
+const R1=[
+ {w:"Памперо",a:"сильний",m:true,ok:"сильний памперо"},
+ {w:"Шимі",a:"запальне",m:false,ok:"запальний шимі"},
+ {w:"Боа (змія)",a:"довга",m:false,ok:"довгий боа"},
+ {w:"Гурамі",a:"яскрава",m:true,ok:"яскрава гурамі"},
+ {w:"Альма-матер",a:"рідний",m:false,ok:"рідна альма-матер"},
+ {w:"Кашпо",a:"керамічне",m:true,ok:"керамічне кашпо"}
+];
+const G=["Чоловічий рід","Жіночий рід","Середній рід"];
+const R2=[
+ {w:"бенді",d:"хокей із м’ячем",g:0},{w:"альма-матер",d:"університет",g:1},{w:"бра",d:"лампа",g:2},
+ {w:"кантрі",d:"стиль у музиці",g:0},{w:"бере",d:"сорт груші",g:1},{w:"піаніно",d:"інструмент",g:2}
+];
+const R3=[
+ {q:"Нагасакі",d:"місто",g:2},{q:"Сурамі",d:"село",g:2},{q:"Калахарі",d:"пустеля",g:1},{q:"Хуанхе",d:"річка",g:1},{q:"Бікіні",d:"острів",g:0}
+];
+const GS=["чоловічий","жіночий","середній"];
+const $=id=>document.getElementById(id);
+const scr=$("screen");
+let sc=[0,0,0],step=0;
+const esc=s=>s;
+
+function chrome(label,frac){
+  $("pill").classList.toggle("hidden",!label);$("pill").textContent=label||"";
+  $("barwrap").classList.toggle("hidden",frac==null);$("bar").style.width=((frac||0)*100)+"%";
+}
+
+function home(){
+  sc=[0,0,0];chrome(null,null);
+  scr.innerHTML=`
+  <div class="stamp hero"><div class="in">
+    <h1 class="display">Мовний <span>Тіндер</span></h1>
+    <p>Слова-іноземці не відмінюються, тож ніхто не знає, якого вони роду. Допоможи їм знайти пару 💜</p>
+  </div></div>
+  <ul class="rounds">
+    <li><span class="n">1</span><div><b>Пара чи не пара</b>Чи пасує прикметник до слова?</div></li>
+    <li><span class="n">2</span><div><b>Побачення наосліп</b>Складні власні назви: вгадай їхній рід</div></li>
+  </ul>
+  <button class="cta" id="go">Почати гру</button>
+  <p class="note">Розбір від кураторки чекай у чаті після гри</p>`;
+  $("go").onclick=()=>{step=0;r1()};
+}
+
+/* ROUND 1 */
+function r1(){
+  const it=R1[step];chrome(`Раунд 1 · ${step+1}/${R1.length}`,step/R1.length);
+  scr.innerHTML=`
+  <div class="stamp card"><div class="in">
+    <p class="kicker">Лайк чи свайп уліво?</p>
+    <p class="pair display">${it.w} <em>+</em> ${it.a}</p>
+  </div></div>
+  <div class="two">
+    <button class="choice" data-v="0">💔 Не пара</button>
+    <button class="choice" data-v="1">❤️ Пара</button>
+  </div>
+  <div id="fb"></div>`;
+  scr.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{
+    const said=b.dataset.v==="1",right=said===it.m;
+    if(right)sc[0]++;
+    scr.querySelectorAll(".choice").forEach(x=>{x.disabled=true;if((x.dataset.v==="1")===it.m)x.classList.add("right")});
+    if(!right)b.classList.add("wrong");
+    $("fb").innerHTML=`<div class="fb ${right?"ok":"no"}"><b>${right?"Пара вгадана 💜":"Не вгадано 💔"}</b>Правильно: ${it.ok}</div>
+      <button class="cta" id="nx" style="margin-top:12px">${step+1<R1.length?"Далі":"До раунду 2"}</button>`;
+    $("nx").onclick=()=>{step++;if(step<R1.length)r1();else{step=0;r3()}};$("nx").focus();
+  });
+}
+
+/* ROUND 2 */
+let place={},sel=null;
+function r2(){
+  place={};sel=null;chrome("Раунд 2 · Матчмейкер",0);drawR2(false);
+}
+function drawR2(done){
+  const placed=Object.keys(place).length;
+  $("bar").style.width=(placed/6*100)+"%";
+  const chip=(i,inSlot)=>{const c=R2[i];let cls="chip";
+    if(done)cls+=place[i]===c.g?" right":" wrong";else if(sel===i)cls+=" sel";
+    return `<button class="${cls}" data-i="${i}" ${done?"disabled":""}>${c.w}<small>${c.d}</small></button>`};
+  scr.innerHTML=`
+  <div class="box"><b>Три роди досі самотні 😢</b><br>${done?"Ось як склалися пари:":"Натисни на слово, а потім на анкету роду. Кожному роду — дві пари."}</div>
+  <div class="profiles">${G.map((g,k)=>`
+    <div class="profile${sel!==null&&!done?" armed":""}" data-g="${k}" role="button" tabindex="0" style="cursor:pointer">
+      <h3 class="display">${g}</h3>
+      <div class="slots">${Object.keys(place).filter(i=>place[i]===k).map(i=>chip(+i,true)).join("")}</div>
+    </div>`).join("")}</div>
+  ${done?`<div id="r2fb"></div>`:`<p class="hint">Кандидати</p><div class="chips">${R2.map((c,i)=>place[i]===undefined?chip(i):"").join("")||'<span class="hint">Усі слова розподілено 👌</span>'}</div>
+  <button class="cta" id="chk" ${placed<6?"disabled":""}>Перевірити пари</button>`}`;
+  if(done){
+    const wrong=R2.filter((c,i)=>place[i]!==c.g);
+    $("r2fb").innerHTML=`<div class="fb ${wrong.length?"no":"ok"}"><b>${wrong.length?`Вгадано ${6-wrong.length} з 6`:"Усі пари вгадано 💜"}</b>${wrong.map(c=>`${c.w} — ${GS[c.g]} рід`).join("<br>")||"Ти справжній матчмейкер!"}</div>
+      <button class="cta" id="nx" style="margin-top:12px">До раунду 3</button>`;
+    $("nx").onclick=()=>{step=0;r3()};$("nx").focus();return;
+  }
+  scr.querySelectorAll(".chip").forEach(b=>b.onclick=e=>{
+    e.stopPropagation();const i=+b.dataset.i;
+    if(place[i]!==undefined){delete place[i];sel=null}else sel=sel===i?null:i;
+    drawR2(false);
+  });
+  scr.querySelectorAll(".profile").forEach(p=>p.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();p.click()}});
+  scr.querySelectorAll(".profile").forEach(p=>p.onclick=()=>{
+    if(sel===null)return;const k=+p.dataset.g;
+    if(Object.values(place).filter(v=>v===k).length>=2)return;
+    place[sel]=k;sel=null;drawR2(false);
+  });
+  const chk=$("chk");if(chk)chk.onclick=()=>{sc[1]=R2.filter((c,i)=>place[i]===c.g).length;drawR2(true)};
+}
+
+/* ROUND 3 */
+function r3(){
+  const it=R3[step];chrome(`Раунд 2 · ${step+1}/${R3.length}`,step/R3.length);
+  scr.innerHTML=`
+  <div class="stamp card"><div class="in">
+    <p class="kicker">Побачення наосліп 🙈 Спершу згадай, що це таке</p>
+    <p class="pair display">Якого роду <em>${it.q}</em>?</p>
+  </div></div>
+  <div class="opts">${GS.map((g,k)=>`<button class="opt" data-k="${k}">${g}</button>`).join("")}</div>
+  <div id="fb"></div>`;
+  scr.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k,right=k===it.g;if(right)sc[2]++;
+    scr.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(+x.dataset.k===it.g)x.classList.add("right")});
+    if(!right)b.classList.add("wrong");
+    $("fb").innerHTML=`<div class="fb ${right?"ok":"no"}"><b>${right?"Так, це пара 💜":"Не вгадано 💔"}</b>${it.q} — ${it.d}, тому ${GS[it.g]} рід</div>
+      <button class="cta" id="nx" style="margin-top:12px">${step+1<R3.length?"Далі":"Мій результат"}</button>`;
+    $("nx").onclick=()=>{step++;step<R3.length?r3():fin()};$("nx").focus();
+  });
+}
+
+/* RESULT */
+function fin(){
+  const tot=sc[0]+sc[2],max=R1.length+R3.length;
+  chrome(null,null);
+  const t=tot>=10?"Мовний купідон 💘":tot>=7?"Досвідчений(-а) староста 🤝":tot>=4?"Шукаєш свій стиль":"Час на побачення з правилом";
+  scr.innerHTML=`
+  <div class="stamp"><div class="in">
+    <p class="big display">${tot}<small>/${max}</small></p>
+    <h2 class="display" style="margin:10px 0 6px;font-size:26px">${t}</h2>
+    <p style="margin:0;color:var(--muted);line-height:1.45">Напиши свій результат у чат, а кураторка розповість, хто кому пара й чому 💜</p>
+  </div></div>
+  <div class="score-rows">
+    <div>Раунд 1 · Пара чи не пара<b>${sc[0]}/${R1.length}</b></div>
+    <div>Раунд 2 · Побачення наосліп<b>${sc[2]}/${R3.length}</b></div>
+  </div>
+  <button class="cta" id="again">Зіграти ще раз</button>`;
+  $("again").onclick=home;
+}
+home();
+</script>
+</body>
+</html>
